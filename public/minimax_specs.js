@@ -151,7 +151,7 @@ describe('Testing some basic functions in the minimax evaluation function', func
 			var minimaxValue = minimax(s, 32, 'x');
 			expect(typeof heuristicValue == 'number').to.equal(true);
 			expect(typeof minimaxValue == 'number').to.equal(true);
-			expect(heuristicValue == minimaxValue).to.equal(true);;
+			expect(heuristicValue == minimaxValue).to.equal(true);
 		}
 	});
 

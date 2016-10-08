@@ -106,14 +106,43 @@
 	*/
 	var heuristic = function(state, maximizingPlayer){
 
-		var minimizingPlayer = (maximizingPlayer == 'x') ? 'o' : 'x';
+		let minimizingPlayer = (maximizingPlayer == 'x') ? 'o' : 'x';
 		//This is how you can retrieve the minimizing player.
 
-        var linesOfLengthTwoForX = state.numLines(2, 'x')
-        //An example 
+		let stateValue = 0;
 
-        //Your code here.  Don't return random, obviously.
-		return Math.random()
+    let linesOfLengthTwoForMax = state.numLines(2, maximizingPlayer)
+    let linesOfLengthTwoForMin = state.numLines(2, minimizingPlayer);
+
+    let linesOfLengthThreeForMax = state.numLines(3, maximizingPlayer);
+    let linesOfLengthThreeForMin = state.numLines(3, minimizingPlayer);
+
+
+    if (state.isDraw()) {
+    	return stateValue = 0;
+    }
+
+    if (state.winner() === maximizingPlayer) {
+    	// console.log('returning 100 for max');
+    	return stateValue = 100;
+    } else if (state.winner() === minimizingPlayer) {
+    	// console.log('returning -100 for min');
+    	return stateValue = -100;
+    }
+
+    if (linesOfLengthThreeForMax > linesOfLengthThreeForMin) {
+    	stateValue += 40;
+    } else if (linesOfLengthThreeForMax < linesOfLengthThreeForMin) {
+    	stateValue -= 40;
+    }
+
+    if (linesOfLengthTwoForMax > linesOfLengthTwoForMin) {
+    	stateValue += 20;
+    } else if (linesOfLengthTwoForMax < linesOfLengthTwoForMin) {
+    	stateValue -= 20;
+    }
+    // console.log(stateValue);
+    return stateValue;
 	}
 
 
@@ -145,7 +174,16 @@
 		var possibleStates = state.nextStates();
 		var currentPlayer = state.nextMovePlayer;
 		//Your code here.
-		return Math.random();
+
+		if (depth === 0 || possibleStates.length === 0) {
+			return heuristic(state, maximizingPlayer);
+		}
+
+		let stateVals = possibleStates.map(nextState => {
+			return minimax(nextState, depth - 1, maximizingPlayer);
+		})
+	
+		return (currentPlayer === maximizingPlayer) ? Math.max(...stateVals) : Math.min(...stateVals);
 	}
 
 
@@ -170,6 +208,8 @@
 	    does; this is why it is a very high value to start with.
 		*/
 		var minimaxAB = function(state, depth, alpha, beta){
+			
+
 		}
 
 		return minimaxAB(state, depth, -100000,100000)
