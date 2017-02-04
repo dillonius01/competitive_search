@@ -159,9 +159,12 @@ var minimax = function(state, depth, maximizingPlayer){
 	if (!depth || possibleStates.length === 0) {
 		return heuristic(state, maximizingPlayer);
 	} else {
-		return possibleStates
-		.map(nextState => minimax(nextState, depth - 1, maximizingPlayer))
-		.reduce((a, b) => a + b)
+		let stateVals = possibleStates
+		.map(nextState => 
+					minimax(nextState, depth - 1, maximizingPlayer)
+				)
+		return Math.max(...stateVals)
+
 	}
 }
 
