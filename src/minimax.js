@@ -113,21 +113,72 @@ var heuristic = function(state, maximizingPlayer){
 	//This is how you can retrieve the minimizing player.
     var minimizingPlayer = (maximizingPlayer == 'x') ? 'o' : 'x';
 
+	let stateValue = 0;
 
-  const linesOfLengthFourMaxer = state.numLines(4, maximizingPlayer);
+	if (state.isDraw()) return stateValue;
+
+	if (state.winner() === maximizingPlayer) return 100;
+	if (state.winner() === minimizingPlayer) return -100;
+
   const linesOfLengthThreeMaxer = state.numLines(3, maximizingPlayer);
   const linesOfLengthTwoMaxer = state.numLines(2, maximizingPlayer);
 
-  const linesOfLengthFourMiner = state.numLines(4, minimizingPlayer);
   const linesOfLengthThreeMiner = state.numLines(3, minimizingPlayer);
   const linesOfLengthTwoMiner = state.numLines(2, minimizingPlayer);
 
-	const diffFour = linesOfLengthFourMaxer - linesOfLengthFourMiner;
-	const diffThree = linesOfLengthThreeMaxer - linesOfLengthThreeMiner;
-	const diffTwo = linesOfLengthTwoMaxer - linesOfLengthTwoMiner;
+	if (linesOfLengthThreeMaxer > linesOfLengthThreeMiner) {
+		stateValue += 40;
+	} else {
+		stateValue -= 40;
+	}
 
-	return (diffFour * 1000) + (diffThree * 100) + diffTwo;
+	if (linesOfLengthTwoMaxer > linesOfLengthTwoMiner) {
+		stateValue += 10;
+	} else {
+		stateValue -= 10;
+	}
+
+	return stateValue;
 }
+
+
+/*
+		let stateValue = 0;
+
+    let linesOfLengthTwoForMax = state.numLines(2, maximizingPlayer)
+    let linesOfLengthTwoForMin = state.numLines(2, minimizingPlayer);
+
+    let linesOfLengthThreeForMax = state.numLines(3, maximizingPlayer);
+    let linesOfLengthThreeForMin = state.numLines(3, minimizingPlayer);
+
+
+    if (state.isDraw()) {
+    	return stateValue = 0;
+    }
+
+    if (state.winner() === maximizingPlayer) {
+    	// console.log('returning 100 for max');
+    	return stateValue = 100;
+    } else if (state.winner() === minimizingPlayer) {
+    	// console.log('returning -100 for min');
+    	return stateValue = -100;
+    }
+
+    if (linesOfLengthThreeForMax > linesOfLengthThreeForMin) {
+    	stateValue += 40;
+    } else if (linesOfLengthThreeForMax < linesOfLengthThreeForMin) {
+    	stateValue -= 40;
+    }
+
+    if (linesOfLengthTwoForMax > linesOfLengthTwoForMin) {
+    	stateValue += 20;
+    } else if (linesOfLengthTwoForMax < linesOfLengthTwoForMin) {
+    	stateValue -= 20;
+    }
+    // console.log(stateValue);
+    return stateValue;
+
+*/
 
 
 
