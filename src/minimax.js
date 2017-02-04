@@ -126,7 +126,7 @@ var heuristic = function(state, maximizingPlayer){
 	const diffThree = linesOfLengthThreeMaxer - linesOfLengthThreeMiner;
 	const diffTwo = linesOfLengthTwoMaxer - linesOfLengthTwoMiner;
 
-	return (diffFour * 10000) + (diffThree * 100) + diffTwo;
+	return (diffFour * 1000) + (diffThree * 100) + diffTwo;
 }
 
 
@@ -163,7 +163,7 @@ var minimax = function(state, depth, maximizingPlayer){
 		.map(nextState => 
 					minimax(nextState, depth - 1, maximizingPlayer)
 				)
-		return Math.max(...stateVals)
+		return (currentPlayer === maximizingPlayer) ? Math.max(...stateVals) : Math.min(...stateVals);
 
 	}
 }
